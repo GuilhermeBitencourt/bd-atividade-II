@@ -1,0 +1,115 @@
+CREATE DATABASE ProdutosFornecedores;
+
+USE ProdutosFornecedores;
+
+CREATE TABLE Produtos(
+	ProdutoID INT PRIMARY KEY AUTO_INCREMENT,
+	NomeProduto VARCHAR(250) NOT NULL,
+    Descricao VARCHAR(250) NOT NULL,
+    PrecoUnitario DECIMAL(10,2) NOT NULL,
+    EstoqueMinimo INT NOT NULL
+    
+);
+
+CREATE TABLE Fornecedores(
+	FornecedorID INT PRIMARY KEY AUTO_INCREMENT,
+    NomeFornecedor VARCHAR(150) NOT NULL,
+    Endereco VARCHAR(100) NOT NULL,
+    Telefone VARCHAR(25) NOT NULL,
+    Email VARCHAR(50) NOT NULL,
+    ProdutoID INT,
+    FOREIGN KEY (ProdutoID) REFERENCES Produtos(ProdutoID)
+);
+
+
+INSERT INTO Produtos (NomeProduto, Descricao, PrecoUnitario, EstoqueMinimo)
+VALUES
+    ('Produto 1', 'Descrição do Produto 1', 19.99, 10),
+    ('Produto 2', 'Descrição do Produto 2', 29.99, 15),
+    ('Produto 3', 'Descrição do Produto 3', 9.99, 5),
+    ('Produto 4', 'Descrição do Produto 4', 39.99, 20),
+    ('Produto 5', 'Descrição do Produto 5', 49.99, 25);
+
+
+INSERT INTO Fornecedores (NomeFornecedor, Endereco, Telefone, Email, ProdutoID)
+VALUES
+    ('Fornecedor 1', 'Endereço do Fornecedor 1', '+55 123456789', 'fornecedor1@example.com', 1),
+    ('Fornecedor 2', 'Endereço do Fornecedor 2', '+55 987654321', 'fornecedor2@example.com', 2),
+    ('Fornecedor 3', 'Endereço do Fornecedor 3', '+55 555555555', 'fornecedor3@example.com', 3),
+    ('Fornecedor 4', 'Endereço do Fornecedor 4', '+55 444444444', 'fornecedor4@example.com', 4),
+    ('Fornecedor 5', 'Endereço do Fornecedor 5', '+55 333333333', 'fornecedor5@example.com', 5);
+
+SELECT * FROM Fornecedores;
+SELECT * FROM Produtos;
+
+SELECT 
+	P.NomeProduto AS Produto,
+    F.NomeFornecedor AS Fornecedor
+FROM Produtos P
+INNER JOIN Fornecedores F ON  F.ProdutoID = P.ProdutoID;
+
+CREATE DATABASE EscolaAlunos;
+
+USE EscolaAlunos;
+
+CREATE TABLE Escolas(
+	EscolaID INT PRIMARY KEY AUTO_INCREMENT,
+    NomeEscola VARCHAR(250) NOT NULL,
+    Endereco VARCHAR(250) NOT NULL,
+    Telefone VARCHAR(25) NOT NULL
+);
+
+CREATE TABLE Alunos(
+	MatriculaID INT PRIMARY KEY AUTO_INCREMENT,
+    NomeAluno VARCHAR(250) NOT NULL,
+    DataNascimento DATE,
+    Endereco VARCHAR(250) NOT NULL,
+    Telefone VARCHAR(25) NOT NULL,
+    EscolaID INT,
+    FOREIGN KEY (EscolaID) REFERENCES Escolas(EscolaID) 
+    
+);
+
+
+INSERT INTO Escolas(NomeEscola, Endereco, Telefone)
+VALUES
+    ('Escola A', 'Endereço da Escola A', '+55 123456789'),
+    ('Escola B', 'Endereço da Escola B', '+55 987654321'),
+    ('Escola C', 'Endereço da Escola C', '+55 555555555'),
+    ('Escola D', 'Endereço da Escola D', '+55 444444444'),
+    ('Escola E', 'Endereço da Escola E', '+55 333333333');
+
+
+INSERT INTO Alunos (NomeAluno, DataNascimento, Endereco, Telefone, EscolaID)
+VALUES
+    ('Aluno 1', '2005-03-15', 'Endereço do Aluno 1', '+55 111111111', 1),
+    ('Aluno 2', '2006-06-20', 'Endereço do Aluno 2', '+55 222222222', 1),
+    ('Aluno 3', '2007-09-25', 'Endereço do Aluno 3', '+55 333333333', 2),
+    ('Aluno 4', '2008-12-30', 'Endereço do Aluno 4', '+55 444444444', 3),
+    ('Aluno 5', '2009-04-05', 'Endereço do Aluno 5', '+55 555555555', 4);
+
+SELECT
+    E.NomeEscola AS NomeDaEscola,
+    COUNT(A.MatriculaID) AS TotalDeAlunosMatriculados
+FROM
+    Escolas AS E
+LEFT JOIN
+    Alunos AS A ON E.EscolaID = A.EscolaID
+GROUP BY
+    E.NomeEscola;
+
+SELECT
+    E.NomeEscola AS NomeDaEscola,
+    COUNT(A.MatriculaID) AS TotalDeAlunosMatriculados
+FROM
+    Escolas AS E
+INNER JOIN
+    Alunos AS A ON E.EscolaID = A.EscolaID
+GROUP BY
+    E.NomeEscola;
+    
+    
+    
+
+
+
